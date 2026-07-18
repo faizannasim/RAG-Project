@@ -1,0 +1,22 @@
+# Create virtual environment
+python -m venv venv
+
+# Activate (Windows)
+venv\Scripts\activate
+
+# Upgrade pip
+python -m pip install --upgrade pip
+
+# Install packages
+pip install langchain
+pip install langchain-community
+pip install langchain-openai
+pip install langchain-huggingface
+pip install langchain-pinecone
+pip install pypdf
+pip install pinecone
+pip install python-dotenv
+
+
+# Save installed versions
+pip freeze > requirements.txt
