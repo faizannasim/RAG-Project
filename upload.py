@@ -21,10 +21,23 @@ for pdf in pdfs:
     loader = PyPDFLoader(pdf)
     documents.extend(loader.load())
 
+
+# chunkING
 splitter = RecursiveCharacterTextSplitter(chunk_size=500,
     chunk_overlap=100
 )
 chunk = splitter.split_documents(documents)
+
+
+print("First Chunk:\n")
+print(chunk[0].page_content)
+vector  = embeddings.embed_query(chunk[0].page_content)
+
+
+
+print("\nVector Length:", len(vector))
+print("\nFirst 10 Values:")
+print(vector[:10])
 # print(chunk[0].page_content)
 # print(len(chunk))
 
