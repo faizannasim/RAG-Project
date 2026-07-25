@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from query import ask_question
+from query import Question
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
@@ -30,7 +30,7 @@ def home():
 
 @app.post("/chat")
 def chat(data:question):
-     answer = ask_question(data.question)
+     answer = Question(data.question)
 
      return {
         "question": data.question,

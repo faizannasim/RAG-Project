@@ -1,6 +1,6 @@
 import os
 
-from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader,DirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_pinecone import PineconeVectorStore
 from utils.embedding import embeddings
@@ -9,17 +9,21 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-documents =[]
 
-pdfs = [
-    "data/AI_and_Machine_Learning_Guide.pdf",
-    "data/Cloud_and_Web_Development.pdf",
-    "data/Python_Programming_Handbook.pdf",
-    "data/RAG_and_LangChain_Deep_Dive.pdf"
-]
-for pdf in pdfs:
-    loader = PyPDFLoader(pdf)
-    documents.extend(loader.load())
+loader = DirectoryLoader(
+    path="data",
+    glob= "*.pdf",
+    loader_cls=PyPDFLoader
+
+)
+
+documents = loader.load()
+print(documents[20].metadata)
+
+
+# for pdf in loader:
+#     loader = PyPDFLoader(pdf)
+#     documents.extend(loader.load())
 
 
 # chunkING
@@ -29,15 +33,18 @@ splitter = RecursiveCharacterTextSplitter(chunk_size=500,
 chunk = splitter.split_documents(documents)
 
 
-print("First Chunk:\n")
-print(chunk[0].page_content)
-vector  = embeddings.embed_query(chunk[0].page_content)
+# print("First Chunk:\n")
+# print(chunk[0].page_content)
+
+# vector  = embeddings.embed_query(chunk[0].page_content)
+# print("\nVector Length:", len(vector))
+
+
+# print("\nFirst 10 Values:")
+# print(vector[:10])
 
 
 
-print("\nVector Length:", len(vector))
-print("\nFirst 10 Values:")
-print(vector[:10])
 # print(chunk[0].page_content)
 # print(len(chunk))
 

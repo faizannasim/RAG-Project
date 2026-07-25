@@ -3,9 +3,12 @@ from langchain_groq import ChatGroq
 from utils.embedding import embeddings
 import os
 from utils.pinecone_db import index
+import time
 
 from dotenv import load_dotenv
 load_dotenv()
+
+
 
 vectorStore = PineconeVectorStore(
     index=index,
@@ -19,7 +22,8 @@ retriever  = vectorStore.as_retriever(
 
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",
-    api_key=os.getenv("GROQ_API_KEY")
+    api_key=os.getenv("GROQ_API_KEY"),
+    streaming = True
 )
 def ask_question(question):
     docs = retriever.invoke(question)
@@ -30,8 +34,11 @@ def ask_question(question):
     prompt = f"""
 You are an AI Assistant.
 
-Answer only from the given context.
+If the answer is available in the provided context, use the context to answer.
 
+If the answer is not available in the context, answer using your own knowledge.
+
+Do not mention whether the answer came from the context or your own knowledge.
 Context:
 {context}
 
@@ -41,7 +48,12 @@ Question:
 Answer:
 """
 
-    response = llm.invoke(prompt)
-    return response.content
+    # response = llm.invoke(prompt)
+    # return response.content
+   
+    for chunk in llm.stream(prompt):
+        print(chunk.content,end="", flush=True)
+        time.sleep(0.1)
 
-print(os.getenv("GROK_API_KEY"))
+    print()
+

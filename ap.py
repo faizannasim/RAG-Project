@@ -2,13 +2,18 @@
 from query import ask_question
 
 print("========== RAG Chatbot ==========")
+count = 1
 
 while True:
-    question = input("\nAsk Question: ")
+    question = input(f"\nQuestion {count}: ")
     if question.lower() == "exit":
         break
-    answer = ask_question(question)
+    #answer = ask_question(question)
 
-    print("\nAnswer:\n")
-
-    print(answer)
+    
+    print("\nAnswer:\n",flush=True)
+    #print(answer)
+    ask_question(question)
+    count += 1
+    # print(answer)
+   
