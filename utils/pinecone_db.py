@@ -6,6 +6,7 @@ load_dotenv()
 
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 pc = Pinecone(api_key=PINECONE_API_KEY)
-index = pc.Index("rag-demo")
+index = pc.Index("rag-test")
+
 
 

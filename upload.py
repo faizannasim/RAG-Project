@@ -54,7 +54,7 @@ chunk = splitter.split_documents(documents)
 vector = PineconeVectorStore.from_documents(
     embedding=embeddings,
     documents = chunk,
-    index_name="rag-demo"
+    index_name="rag-test"
 
 
 )
