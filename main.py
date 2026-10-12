@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from query import Question
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
